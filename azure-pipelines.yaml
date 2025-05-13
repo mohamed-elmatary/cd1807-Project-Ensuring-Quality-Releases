@@ -178,8 +178,7 @@ stages:
   # Deploy FakeRestAPI Web App
   # ToDo: Provide <environment name> you created in your DevOps project
   - deployment: FakeRestAPI
-    pool:
-      vmImage: 'Ubuntu-18.04'      
+    pool: myAgentPool
     environment: my-test-vm   # ToDo
     strategy:
       runOnce:
@@ -188,7 +187,7 @@ stages:
           - task: AzureWebApp@1
             displayName: 'Deploy Azure Web App'
             inputs:
-              azureSubscription: 'aa9cd12c-7c25-41fa-b40b-6650c05128ba'     # ToDo
+              azureSubscription: 'myServiceConnection'     # ToDo
               appName: 'myApplication714-AppService'               # ToDo
               appType: webApp
               package: $(Pipeline.Workspace)/drop-fakerestapi/$(Build.BuildId)-fakerestapi.zip       # ToDo: Use the published zip artifact. 
