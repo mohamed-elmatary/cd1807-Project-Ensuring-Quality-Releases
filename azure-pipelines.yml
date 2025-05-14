@@ -13,7 +13,7 @@ pool: myAgentPool
 variables:
   python.version: '3.11.7'
   # ToDo: Replace the service connection name as used in the DevOps project settings
-  azureServiceConnectionId: 'myServiceConnection'
+  azureServiceConnectionId: 'myServiceConnectionId'
   # Project root folder. Point to the folder containing manage.py file.
   projectRoot: $(System.DefaultWorkingDirectory)
   # Environment name
@@ -80,6 +80,11 @@ stages:
         command: 'apply'
         workingDirectory: '$(System.DefaultWorkingDirectory)/terraform/environments/test'
         environmentServiceNameAzureRM: '$(azureServiceConnectionId)'
+        backendServiceArm: '$(azureServiceConnectionId)'
+        backendAzureRmResourceGroupName: 'Azuredevops2'
+        backendAzureRmStorageAccountName: 'tfstate166962342'
+        backendAzureRmContainerName: 'tfstate'
+        backendAzureRmKey: 'test.terraform.tfstate'
 
     # ToDo: Change the workingDirectory path, as applicable to you
     # Destroy the resources in Azure by running a separate pipeline. 
@@ -95,9 +100,12 @@ stages:
     # Postman - Install Newman    
     # ToDo: Update the command and verify the working directory
     - task: CmdLine@2
-      displayName: Install Newman
+      displayName: Install NPM and Newman
       inputs:
-        script: 'sudo npm install -g newman'
+        script: |
+          curl -fsSL https://deb.nodesource.com/setup_18.x | sudo -E bash -
+          sudo apt-get install -y nodejs
+          sudo npm install -g newman
         workingDirectory: $(System.DefaultWorkingDirectory)
     # Postman Data Validation Test Suite    
     # ToDo: Verify the working directory
@@ -187,7 +195,7 @@ stages:
           - task: AzureWebApp@1
             displayName: 'Deploy Azure Web App'
             inputs:
-              azureSubscription: 'myServiceConnection'     # ToDo
+              azureSubscription: '$(azureServiceConnectionId)'     # ToDo
               appName: 'myApplication714-AppService'               # ToDo
               appType: webApp
               package: $(Pipeline.Workspace)/drop-fakerestapi/$(Build.BuildId)-fakerestapi.zip       # ToDo: Use the published zip artifact. 
