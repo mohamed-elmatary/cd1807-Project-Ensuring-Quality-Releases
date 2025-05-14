@@ -1,4 +1,4 @@
-# Azure subscription vars
+
 
 
 # Resource Group/Location
