@@ -26,10 +26,6 @@ resource "azurerm_linux_virtual_machine" "vm" {
     caching           = "ReadWrite"
     storage_account_type = "Standard_LRS"
   }
-  source_image_reference {
-    publisher = "Canonical"
-    offer     = "UbuntuServer"
-    sku       = "18.04-LTS"
-    version   = "latest"
-  }
+  
+  source_image_id = "/subscriptions/aa9cd12c-7c25-41fa-b40b-6650c05128ba/resourceGroups/QUALITYASSURANCE/providers/Microsoft.Compute/images/myApplication714-VM-image-20250514052702"
 }
