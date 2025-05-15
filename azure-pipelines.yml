@@ -30,6 +30,19 @@ stages:
     #--------------------------------------------#  
     # Use Terraform to create the Infrastructure      
     # Install Terraform on the pipeline agent 
+    - script: |
+        cd '$(System.DefaultWorkingDirectory)/terraform/environments/test'
+        echo "Checking for lock..."
+        LOCK_ID=$(terraform show -json tfplan | jq -r '.lockId // empty')
+        if [ ! -z "$LOCK_ID" ]; then
+          echo "Force unlocking state with ID: $LOCK_ID"
+          terraform force-unlock $LOCK_ID
+          terraform apply -auto-approve tfplan
+        else
+          echo "No lock detected."
+        fi
+      displayName: 'Unlock and retry apply if locked'
+      condition: failed()
     - task: ms-devlabs.custom-terraform-tasks.custom-terraform-installer-task.TerraformInstaller@0
       displayName: 'Terrafom installation'
       inputs:
