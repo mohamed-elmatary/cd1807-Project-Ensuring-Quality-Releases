@@ -1,0 +1,15 @@
+{
+	"id": "f820208c-c3bb-4009-a229-10375f98c441",
+	"name": "Test",
+	"values": [
+		{
+			"key": "baseUrl",
+			"value": "https://myapplication714-appservice.azurewebsites.net",
+			"type": "default",
+			"enabled": true
+		}
+	],
+	"_postman_variable_scope": "environment",
+	"_postman_exported_at": "2025-05-15T02:48:57.747Z",
+	"_postman_exported_using": "Postman/11.44.3"
+}
