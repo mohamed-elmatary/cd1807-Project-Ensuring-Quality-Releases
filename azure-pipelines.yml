@@ -72,7 +72,15 @@ stages:
       inputs:
        secureFile: 'id_rsa.pub'
 
-    
+    - script: |
+        terraform force-unlock 79dc58bf-c030-3428-e768-22615d20912b \
+          -backend-config="resource_group_name=Azuredevops2" \
+          -backend-config="storage_account_name=tfstate166962342" \
+          -backend-config="container_name=tfstate" \
+          -backend-config="key=test.terraform.tfstate"
+      workingDirectory: '$(System.DefaultWorkingDirectory)/terraform/environments/test'
+      displayName: 'Force unlock terraform state'
+      failOnStderr: false
     # Run Terraform Apply
     - task: ms-devlabs.custom-terraform-tasks.custom-terraform-release-task.TerraformTaskV3@3
       displayName: Terraform apply
@@ -87,19 +95,6 @@ stages:
         backendAzureRmContainerName: 'tfstate'
         backendAzureRmKey: 'test.terraform.tfstate'
 
-    - script: |
-          cd '$(System.DefaultWorkingDirectory)/terraform/environments/test'
-          echo "Checking for lock..."
-          LOCK_ID=$(terraform show -json tfplan | jq -r '.lockId // empty')
-          if [ ! -z "$LOCK_ID" ]; then
-            echo "Force unlocking state with ID: $LOCK_ID"
-            terraform force-unlock $LOCK_ID
-            terraform apply -auto-approve tfplan
-          else
-            echo "No lock detected."
-          fi
-      displayName: 'Unlock and retry apply if locked'
-      condition: failed()
     # ToDo: Change the workingDirectory path, as applicable to you
     # Destroy the resources in Azure by running a separate pipeline. 
     # - task: TerraformTaskV3@3
