@@ -200,6 +200,16 @@ stages:
               appType: webApp
               package: $(Pipeline.Workspace)/drop-fakerestapi/$(Build.BuildId)-fakerestapi.zip       # ToDo: Use the published zip artifact. 
           #--------------------------------------------#    
+          
+          - task: CmdLine@2
+            inputs:
+              script: |
+                sudo apt-get install -y openjdk-11-jre-headless
+                echo "##vso[task.setvariable variable=JAVA_HOME]/usr/lib/jvm/java-11-openjdk-amd64"
+                export JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64
+                java -version
+            displayName: 'Install and Set JAVA_HOME'          
+
           # Run JMeter test suite against the App Service
           - task: CmdLine@2
             inputs:
