@@ -59,17 +59,18 @@ stages:
     # Generate an SSH key pair in your local/AZ Cloud shell. Use the public key in the Terraform VM module. 
     # Install public key and private key file to the pipeline agent, using the task below. 
     # ToDo: Change the inputs value below
-    # - task: InstallSSHKey@0
-    #   inputs:
-    #     knownHostsEntry: 'KNOWN_HOSTS_STRING' # variable value
-    #     sshPublicKey: 'PUBLIC_KEY'            # variable value
-    #     sshKeySecureFile: 'id_rsa' # Use secure file feature in the pipeline library UI to save the "id_rsa" file, as mentioned here: https://learn.microsoft.com/en-us/azure/devops/pipelines/library/secure-files?view=azure-devops#add-a-secure-file
+    - task: InstallSSHKey@0
+      inputs:
+        knownHostsEntry: '172.191.157.47 ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQCuuOX0HGCDgmgYDVWMywOsOHwN3fLcNqmu4T54QUfVJMQm+dpUSuhn2GuXun6YW06EySm3B7UoxLiVjvO5WfpIc8Qkof/fezc90XTD3XUcRpQZB9+HM3Oz+Wld2diX4nE1+PU8dOrsG3MY6KkkMbRc2udbwWNBIEor2h6j/4jyHgMJNhAunGMlCiBf8ncnvilBWuWL+F4SDKvue8/mKwLQ7LQ/6PU4ByPHD/rbPvAkAz30CKF4kS+uWWhtznZQFEY5aKweJ52Nr1D6QQnQC7HzgiXB0eKWlgYLwJRKsmRsSKuruFKxWsewC4Ul4uUUdODJyzoT4FhA60denh09lKQxgHSAhiy4M6Ky6+9HiA7TLq1JgnFQSmFa9PgRr3s3el8kKY5hkQ4Ad1dacM/+F37ompv7r6yjKxiYaALuypy1x0hBkmH5Y4wepsBpn6a1ArTiBkECFXOqK75WoAQK3ab3M7Mr85ChIFFLZle82v2K1bXVCNQ5m8aLAAqF2cL7m+k=' # variable value
+        sshPublicKey: 'ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQChjWyIqrhPURBUSKvH4XCchNyTa/ZA/5ISYRjv77sedtqiZ0AVrKc2+t7oxLZBlOchFVFW4mVZ6YsiKJASGJgHS+CRSJ4LxT4hiO5ocL+48QHwRrR3P16nTxffJGKWrOoxyM/Yie1dTMSzRWH0GsnwrCRnHAbnLuPqtKrfGPpnB8y1xlvXFnz4x3oCRmMiCwzGXHhg9A65A36PqWH1+8F9AJRzvJcFSg/DAQjYPDVL6m2RmjZxGPiE0cOJi7OO7hpmFbPVO7D/MBB9crFSXTpq1dr8hZhZfa+ESpUXEC64o/4EYmHrC4SvodSHn3ZWTKvf3nXiU1OpnIYJJeAFkmIVEoOM9SDLewQacRrm7fHHruwo/tzYvhj7Co1cTcWssywJxv9FRXqA2OGXwo4zKKWU+JdFR4LFHb3f1NpXT5bzWm5+PjxZ/weV9gxtQlQPBoZ5vC4Axmv1B3EB6SEyux5CoNZikSadGrgWsXRi/OaU56efWV6pcCE0QlyvSf/9Ijs= MohamedShaban@MohamedShaaban'            # variable value
+        sshKeySecureFile: 'id_rsa.pub' 
+    # Use secure file feature in the pipeline library UI to save the "id_rsa" file, as mentioned here: https://learn.microsoft.com/en-us/azure/devops/pipelines/library/secure-files?view=azure-devops#add-a-secure-file
     
-    # - task: DownloadSecureFile@1
-    #  name: udacity_public_key
-    #  displayName: 
-    #  inputs:
-    #   secureFile: 
+    - task: DownloadSecureFile@1
+      name: udacity_public_key
+      displayName: 
+      inputs:
+       secureFile: 'id_rsa.pub'
 
     
     # Run Terraform Apply
@@ -209,7 +210,8 @@ stages:
                 unzip -o $(Build.BuildId)-perftests.zip
                 ./apache-jmeter-5.2.1/bin/jmeter -n -t PerformanceTestSuite.jmx -j jmeter.log -f
                 cat jmeter.log                                                                           # ToDo: Write your commands
-              workingDirectory: $(Pipeline.Workspace)/drop-perftests            # ToDo: Use the artifact name from the task above
+              workingDirectory: $(Pipeline.Workspace)/drop-perftests            
+          # ToDo: Use the artifact name from the task above
               
   #--------------------------------------------#  
   # Selenium | Functional UI Tests
@@ -219,7 +221,6 @@ stages:
     environment:
       name: my-test-vm  # ToDo: Change/provide a name
       resourceType: VirtualMachine
-      tags: selenium
     strategy:
       runOnce:
         deploy:
