@@ -71,16 +71,7 @@ stages:
       displayName: 
       inputs:
        secureFile: 'id_rsa.pub'
-
-    - script: |
-        terraform force-unlock 79dc58bf-c030-3428-e768-22615d20912b \
-          -backend-config="resource_group_name=Azuredevops2" \
-          -backend-config="storage_account_name=tfstate166962342" \
-          -backend-config="container_name=tfstate" \
-          -backend-config="key=test.terraform.tfstate"
-      workingDirectory: '$(System.DefaultWorkingDirectory)/terraform/environments/test'
-      displayName: 'Force unlock terraform state'
-      failOnStderr: false
+       
     # Run Terraform Apply
     - task: ms-devlabs.custom-terraform-tasks.custom-terraform-release-task.TerraformTaskV3@3
       displayName: Terraform apply
