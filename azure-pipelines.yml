@@ -130,11 +130,23 @@ stages:
     - task: PublishTestResults@2
       inputs:
         testResultsFormat: 'JUnit'
-        testResultsFiles: '**/TEST-Regression.xml'
+        testResultsFiles: '$(System.DefaultWorkingDirectory)/automatedtesting/postman/TEST-Regression.xml'
         failTaskOnFailedTests: false
         testRunTitle: 'Postman API Tests'
       condition: succeededOrFailed()
       displayName: 'Publish Postman Test Results'
+
+    - task: Bash@3
+      displayName: 'Install PoweShell Core on Linux'
+      inputs:
+        targetType: 'inline'
+        script: |
+          sudo apt-get update
+          sudo apt-get install -y wget apt-transport-https software-properties-common
+          wget -q https://packages.microsoft.com/config/ubuntu/22.04/packages-microsoft-prod.deb
+          sudo dpkg -i packages-microsoft-prod.deb
+          sudo apt-get update
+          sudo apt-get install -y powershell
 
     - task: PowerShell@2
       displayName: 'Convert JUnit XML to JSON'
