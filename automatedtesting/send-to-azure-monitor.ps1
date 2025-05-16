@@ -16,9 +16,9 @@ $hmacsha256 = New-Object System.Security.Cryptography.HMACSHA256
 $hmacsha256.Key = $decodedKey
 $signatureBytes = $hmacsha256.ComputeHash($bytesToHash)
 $signature = [Convert]::ToBase64String($signatureBytes)
-$authHeader = "SharedKey $workspaceId:$signature"
+$authHeader = "SharedKey ${workspaceId}:$signature"
 
-$uri = "https://$workspaceId.ods.opinsights.azure.com/api/logs?api-version=2016-04-01"
+$uri = "https://${workspaceId}.ods.opinsights.azure.com/api/logs?api-version=2016-04-01"
 
 Invoke-RestMethod -Method Post -Uri $uri -Headers @{
     "Authorization" = $authHeader
