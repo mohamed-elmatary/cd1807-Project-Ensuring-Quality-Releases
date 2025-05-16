@@ -130,7 +130,7 @@ stages:
     - task: PublishTestResults@2
       inputs:
         testResultsFormat: 'JUnit'
-        testResultsFiles: '**/TEST-Regression.xml'
+        testResultsFiles: '$(System.DefaultWorkingDirectory)/automatedtesting/postman/TEST-Regression.xml'
         failTaskOnFailedTests: false
         testRunTitle: 'Postman API Tests'
       condition: succeededOrFailed()
