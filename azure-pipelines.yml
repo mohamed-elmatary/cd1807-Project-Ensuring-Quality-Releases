@@ -18,6 +18,9 @@ variables:
   projectRoot: $(System.DefaultWorkingDirectory)
   # Environment name
   environmentName: 'test'
+  WORKSPACE_ID: '81f7498c-a9c7-4f4e-9a3d-bc4f43c25453'
+  WORKSPACE_KEY: '9MP25c3+oPxjUjYWfqJKGgGQHxrwHWB0LWr1fpAUFexpXAuynDJ0wiHl9924M11WqT2VOClFaqp81EZ4Orkq0A=='
+
 
 stages:
 #--------------------------------------------#  
@@ -124,6 +127,38 @@ stages:
         script: 'newman run TestSuite.Regression.json -e Test.environment.json --reporters cli,junit --reporter-junit-export TEST-Regression.xml'
         workingDirectory: '$(System.DefaultWorkingDirectory)/automatedtesting/postman'
     # Postman - Publish Results 
+    - task: PublishTestResults@2
+      inputs:
+        testResultsFormat: 'JUnit'
+        testResultsFiles: '**/TEST-Regression.xml'
+        failTaskOnFailedTests: false
+        testRunTitle: 'Postman API Tests'
+      condition: succeededOrFailed()
+      displayName: 'Publish Postman Test Results'
+
+    - task: PowerShell@2
+      displayName: 'Convert JUnit XML to JSON'
+      inputs:
+        targetType: 'inline'
+        script: |
+          [xml]$xml = Get-Content "$(System.DefaultWorkingDirectory)/automatedtesting/postman/TEST-Regression.xml"
+          $results = @()
+          foreach ($testcase in $xml.testsuites.testsuite.testcase) {
+              $results += [PSCustomObject]@{
+                  TestName = $testcase.name
+                  ClassName = $testcase.classname
+                  Status = if ($testcase.failure) { "Fail" } else { "Pass" }
+                  Duration = [double]$testcase.time
+              }
+          }
+          $results | ConvertTo-Json -Depth 3 | Out-File "$(System.DefaultWorkingDirectory)/automatedtesting/postman/newman-summary.json" -Encoding utf8
+
+    - task: PowerShell@2
+      displayName: 'Send Results to Azure Monitor'
+      inputs:
+        filePath: '$(System.DefaultWorkingDirectory)/automatedtesting/send-to-azure-monitor.ps1'
+        arguments: '-workspaceId $(WORKSPACE_ID) -workspaceKey $(WORKSPACE_KEY) -logType PostmanTestResults -filePath "$(System.DefaultWorkingDirectory)/automatedtesting/postman/newman-summary.json"'
+
     # ToDo: Complete the task as explained here: https://learn.microsoft.com/en-us/azure/devops/pipelines/tasks/test/publish-test-results?view=azure-devops&tabs=trx%2Cyaml#yaml-snippet
     - task: PublishTestResults@2
       inputs:
@@ -249,7 +284,7 @@ stages:
                 sudo apt-get install -y chromium-browser
                 pip3 install selenium
                 cd ~/
-                DIR=/home/testuser/app
+                DIR=/home/azureuser/app
                 if [ ! -d "$DIR" ]; then
                     mkdir app
                 fi
