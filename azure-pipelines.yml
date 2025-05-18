@@ -74,10 +74,31 @@ stages:
       displayName: 
       inputs:
        secureFile: 'id_rsa.pub'
-       
+
+
+    - task: ms-devlabs.custom-terraform-tasks.custom-terraform-release-task.TerraformTaskV3@3
+      displayName: 'Terraform Plan'
+      inputs:
+        provider: 'azurerm'
+        command: 'plan'
+        workingDirectory: '$(System.DefaultWorkingDirectory)/terraform/environments/test'
+        environmentServiceNameAzureRM: '$(azureServiceConnectionId)'
+        backendServiceArm: '$(azureServiceConnectionId)'
+        backendAzureRmResourceGroupName: 'Azuredevops2'
+        backendAzureRmStorageAccountName: 'tfstate166962342'
+        backendAzureRmContainerName: 'tfstate'
+        backendAzureRmKey: 'test.terraform.tfstate'
+        vars: |
+          key1=value1
+        commandOptions: '-out=tfplan'
+      name: TerraformPlan
+      continueOnError: true
+
+
     # Run Terraform Apply
     - task: ms-devlabs.custom-terraform-tasks.custom-terraform-release-task.TerraformTaskV3@3
       displayName: Terraform apply
+      condition: eq(variables['applyRequired'], 'true')
       inputs:
         provider: 'azurerm'
         command: 'apply'
@@ -230,8 +251,8 @@ stages:
                 wget "https://downloads.apache.org/jmeter/binaries/apache-jmeter-5.6.3.tgz"
                 tar -xf apache-jmeter-5.6.3.tgz
                 unzip -o $(Build.BuildId)-perftests.zip
-                ./apache-jmeter-5.6.3/bin/jmeter -n -t EnduranceTest.jmx -j jmeter.log -f
-                ./apache-jmeter-5.6.3/bin/jmeter -n -t StressTest.jmx -j jmeter.log -f
+                ./apache-jmeter-5.6.3/bin/jmeter -n -t EnduranceTest.jmx -Jdata=reference_data.csv -j jmeter.log -f
+                ./apache-jmeter-5.6.3/bin/jmeter -n -t StressTest.jmx -Jdata=reference_data.csv -j jmeter.log -f
                 cat jmeter.log                                                                           # ToDo: Write your commands
               workingDirectory: $(Pipeline.Workspace)/drop-perftests     
             displayName: 'Jmeter Test'                 
