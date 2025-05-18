@@ -233,7 +233,8 @@ stages:
                 ./apache-jmeter-5.6.3/bin/jmeter -n -t EnduranceTest.jmx -j jmeter.log -f
                 ./apache-jmeter-5.6.3/bin/jmeter -n -t StressTest.jmx -j jmeter.log -f
                 cat jmeter.log                                                                           # ToDo: Write your commands
-              workingDirectory: $(Pipeline.Workspace)/drop-perftests            
+              workingDirectory: $(Pipeline.Workspace)/drop-perftests     
+            displayName: 'Jmeter Test'                 
           # ToDo: Use the artifact name from the task above
               
   #--------------------------------------------#  
