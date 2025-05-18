@@ -1,9 +1,8 @@
 {
 	"info": {
-		"_postman_id": "d8ef1a33-bae6-4852-a4c1-eaa676f16252",
+		"_postman_id": "968b3a18-cc72-48a2-9b6b-e8619b4aaca8",
 		"name": "Starter APIs",
-		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "3113833"
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
 		{
@@ -12,6 +11,7 @@
 				{
 					"listen": "test",
 					"script": {
+						"id": "38b1717c-45ae-477f-8dae-8e889ba381d5",
 						"exec": [
 							"pm.test(\"Successful response\", function () {",
 							"    pm.expect(pm.response.text()).to.include(\"success\");",
@@ -63,6 +63,7 @@
 				{
 					"listen": "test",
 					"script": {
+						"id": "af3cb111-e3ac-4174-b8ca-7f4127a0285d",
 						"exec": [
 							"pm.test(\"Successful response\", function () {",
 							"    pm.expect(pm.response.text()).to.include(\"success\");",
@@ -93,5 +94,6 @@
 			},
 			"response": []
 		}
-	]
+	],
+	"protocolProfileBehavior": {}
 }
