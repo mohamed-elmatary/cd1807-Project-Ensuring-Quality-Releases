@@ -230,8 +230,8 @@ stages:
                 wget "https://downloads.apache.org/jmeter/binaries/apache-jmeter-5.6.3.tgz"
                 tar -xf apache-jmeter-5.6.3.tgz
                 unzip -o $(Build.BuildId)-perftests.zip
-                ./apache-jmeter-5.6.3/bin/jmeter -n -t EnduranceTest.jmx -j jmeter.log -f
-                ./apache-jmeter-5.6.3/bin/jmeter -n -t StressTest.jmx -j jmeter.log -f
+                ./apache-jmeter-5.6.3/bin/jmeter -n -t EnduranceTest.jmx -Jdata=reference_data.csv -j jmeter.log -f
+                ./apache-jmeter-5.6.3/bin/jmeter -n -t StressTest.jmx -Jdata=reference_data.csv -j jmeter.log -f
                 cat jmeter.log                                                                           # ToDo: Write your commands
               workingDirectory: $(Pipeline.Workspace)/drop-perftests     
             displayName: 'Jmeter Test'                 
