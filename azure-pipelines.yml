@@ -306,7 +306,5 @@ stages:
                 export PATH=$PATH:/home/azureuser/app
                 echo "Starting Selenium Tests"
                 #python3 add_remove_from_cart.py >> selenium.log
-                DIR2=/var/log/selenium
-                if [ ! -d "$DIR2" ]; then
-                    mkdir -p DIR2
+                mkdir -p var/log/selenium
                 echo "Completed Selenium Tests. Check selenium.log for results."
