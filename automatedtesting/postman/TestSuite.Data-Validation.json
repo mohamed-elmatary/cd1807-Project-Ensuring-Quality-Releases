@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "d8ef1a33-bae6-4852-a4c1-eaa676f16252",
+		"_postman_id": "d006e7b7-d50a-40fb-b505-0c6e2fd459d1",
 		"name": "TestSuite.Data-Validation",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "3113833"
@@ -13,13 +13,36 @@
 					"listen": "test",
 					"script": {
 						"exec": [
-							"pm.test(\"Successful response\", function () {",
-							"    pm.expect(pm.response.text()).to.include(\"success\");",
+							"pm.test(\"Response contains correct fields\", function () {",
+							"    var json = pm.response.json();",
+							"    pm.expect(json).to.have.property(\"ID\");",
+							"    pm.expect(json).to.have.property(\"IDBook\");",
+							"    pm.expect(json).to.have.property(\"FirstName\");",
+							"    pm.expect(json).to.have.property(\"LastName\");",
 							"});",
-							"var json = pm.response.json();",
-							"pm.environment.set(\"id\", json.id);"
+							"",
+							"pm.test(\"Data types are valid\", function () {",
+							"    var json = pm.response.json();",
+							"    pm.expect(json.ID).to.be.a(\"number\");",
+							"    pm.expect(json.FirstName).to.be.a(\"string\");",
+							"});",
+							"",
+							"",
+							"",
+							""
 						],
-						"type": "text/javascript"
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
 					}
 				}
 			],
@@ -33,7 +56,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"id\": 0,\n    \"idBook\": 0,\n    \"firstName\": \"{{firstName}}\",\n    \"lastName\": \"{{lastName}}\"\n}",
+					"raw": "{\n    \"id\": {{id}},\n    \"idBook\": {{book_id}},\n    \"firstName\": \"{{first_name}}\",\n    \"lastName\":\"{{last_name}}\"\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -41,16 +64,15 @@
 					}
 				},
 				"url": {
-					"raw": "https://fakerestapi.azurewebsites.net/api/v1/Authors",
+					"raw": "https://myapplication714-appservice.azurewebsites.net/api/Authors",
 					"protocol": "https",
 					"host": [
-						"fakerestapi",
+						"myapplication714-appservice",
 						"azurewebsites",
 						"net"
 					],
 					"path": [
 						"api",
-						"v1",
 						"Authors"
 					]
 				}
@@ -64,12 +86,20 @@
 					"listen": "test",
 					"script": {
 						"exec": [
-							"pm.test(\"Successful response\", function () {",
-							"    pm.expect(pm.response.text()).to.include(\"success\");",
+							"const json = pm.response.json();",
+							"",
+							"pm.test(\"Response is an array\", function () {",
+							"    pm.expect(json).to.be.an(\"array\");",
 							"});",
+							"",
+							"pm.test(\"Array is not empty\", function () {",
+							"    pm.expect(json.length).to.be.above(0);",
+							"});",
+							"",
 							""
 						],
-						"type": "text/javascript"
+						"type": "text/javascript",
+						"packages": {}
 					}
 				}
 			],
@@ -77,16 +107,15 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "https://fakerestapi.azurewebsites.net/api/v1/Authors",
+					"raw": "https://myapplication714-appservice.azurewebsites.net/api/Authors",
 					"protocol": "https",
 					"host": [
-						"fakerestapi",
+						"myapplication714-appservice",
 						"azurewebsites",
 						"net"
 					],
 					"path": [
 						"api",
-						"v1",
 						"Authors"
 					]
 				}

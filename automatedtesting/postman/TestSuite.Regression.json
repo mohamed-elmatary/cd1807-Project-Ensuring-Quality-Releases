@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "d8ef1a33-bae6-4852-a4c1-eaa676f16252",
+		"_postman_id": "ebdefe7a-a249-4322-84f6-02782451ce55",
 		"name": "TestSuite.Regression",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "3113833"
@@ -13,12 +13,22 @@
 					"listen": "test",
 					"script": {
 						"exec": [
-							"pm.test(\"Successful response\", function () {",
-							"    pm.expect(pm.response.text()).to.include(\"success\");",
-							"});",
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});    ",
 							"var json = pm.response.json();",
-							"pm.environment.set(\"id\", json.id);"
+							"pm.environment.set(\"id\", json.ID)",
+							"console.log(\"✅ ID saved to environment: \" + json.ID);",
+							""
 						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"packages": {},
 						"type": "text/javascript"
 					}
 				}
@@ -33,7 +43,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"id\": 0,\n    \"idBook\": 0,\n    \"firstName\": \"{{firstName}}\",\n    \"lastName\": \"{{lastName}}\"\n}",
+					"raw": "{\n    \"id\": 1,\n    \"idBook\": 100,\n    \"firstName\": \"{{first_name}}\",\n    \"lastName\":\"{{last_name}}\"\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -41,16 +51,15 @@
 					}
 				},
 				"url": {
-					"raw": "https://fakerestapi.azurewebsites.net/api/v1/Authors",
+					"raw": "https://myapplication714-appservice.azurewebsites.net/api/Authors",
 					"protocol": "https",
 					"host": [
-						"fakerestapi",
+						"myapplication714-appservice",
 						"azurewebsites",
 						"net"
 					],
 					"path": [
 						"api",
-						"v1",
 						"Authors"
 					]
 				}
@@ -64,30 +73,42 @@
 					"listen": "test",
 					"script": {
 						"exec": [
-							"pm.test(\"Successful response\", function () {",
-							"    pm.expect(pm.response.text()).to.include(\"success\");",
-							"});",
-							""
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
 						],
-						"type": "text/javascript"
+						"type": "text/javascript",
+						"packages": {}
 					}
 				}
 			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
 			"request": {
 				"method": "GET",
 				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
 				"url": {
-					"raw": "https://fakerestapi.azurewebsites.net/api/v1/Authors",
+					"raw": "https://myapplication714-appservice.azurewebsites.net/api/Authors/{{id}}",
 					"protocol": "https",
 					"host": [
-						"fakerestapi",
+						"myapplication714-appservice",
 						"azurewebsites",
 						"net"
 					],
 					"path": [
 						"api",
-						"v1",
-						"Authors"
+						"Authors",
+						"{{id}}"
 					]
 				}
 			},
