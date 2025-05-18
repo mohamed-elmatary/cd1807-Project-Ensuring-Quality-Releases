@@ -74,10 +74,31 @@ stages:
       displayName: 
       inputs:
        secureFile: 'id_rsa.pub'
-       
+
+
+    - task: ms-devlabs.custom-terraform-tasks.custom-terraform-release-task.TerraformTaskV3@3
+      displayName: 'Terraform Plan'
+      inputs:
+        provider: 'azurerm'
+        command: 'plan'
+        workingDirectory: '$(System.DefaultWorkingDirectory)/terraform/environments/test'
+        environmentServiceNameAzureRM: '$(azureServiceConnectionId)'
+        backendServiceArm: '$(azureServiceConnectionId)'
+        backendAzureRmResourceGroupName: 'Azuredevops2'
+        backendAzureRmStorageAccountName: 'tfstate166962342'
+        backendAzureRmContainerName: 'tfstate'
+        backendAzureRmKey: 'test.terraform.tfstate'
+        vars: |
+          key1=value1
+        commandOptions: '-out=tfplan'
+      name: TerraformPlan
+      continueOnError: true
+
+
     # Run Terraform Apply
     - task: ms-devlabs.custom-terraform-tasks.custom-terraform-release-task.TerraformTaskV3@3
       displayName: Terraform apply
+      condition: eq(variables['applyRequired'], 'true')
       inputs:
         provider: 'azurerm'
         command: 'apply'
