@@ -251,9 +251,13 @@ stages:
                 wget "https://downloads.apache.org/jmeter/binaries/apache-jmeter-5.6.3.tgz"
                 tar -xf apache-jmeter-5.6.3.tgz
                 unzip -o $(Build.BuildId)-perftests.zip
-                ./apache-jmeter-5.6.3/bin/jmeter -n -t EnduranceTest.jmx -Jdata=reference_data.csv -j jmeter.log -f
-                ./apache-jmeter-5.6.3/bin/jmeter -n -t StressTest.jmx -Jdata=reference_data.csv -j jmeter.log -f
-                cat jmeter.log                                                                           # ToDo: Write your commands
+                ./apache-jmeter-5.6.3/bin/jmeter -n -t EnduranceTest.jmx -Jdata=reference_data.csv -j EnduranceTest.log -f
+                ./apache-jmeter-5.6.3/bin/jmeter -n -t StressTest.jmx -Jdata=reference_data.csv -j StressTest.log -f
+                cat EnduranceTest.log
+                cat StressTest.log
+                cat Endurance_Test_Result.csv  
+                cat Stress_Test_Result.csv                                                                           # ToDo: Write your commands
+                 # ToDo: Write your commands
               workingDirectory: $(Pipeline.Workspace)/drop-perftests     
             displayName: 'Jmeter Test'                 
           # ToDo: Use the artifact name from the task above
