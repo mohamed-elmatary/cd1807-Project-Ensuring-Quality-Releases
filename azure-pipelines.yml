@@ -301,7 +301,8 @@ stages:
                 sudo apt-get install python3-pip -y
                 sudo apt-get install unzip -y
                 sudo apt-get install -y chromium-browser
-                pip3 install selenium
+                python3 -m pip install --upgrade pip
+                python3 -m pip install selenium
                 cd ~/
                 DIR=/home/azureuser/app
                 if [ ! -d "$DIR" ]; then
@@ -310,7 +311,7 @@ stages:
                 mv /home/azureuser/azagent/_work/1/drop-uitests/$(Build.BuildId)-uitests.zip app
                 cd app
                 unzip -o $(Build.BuildId)-uitests.zip
-                FILE=/home/azure/app/chromedriver_linux64.zip
+                FILE=/home/azureuser/app/chromedriver_linux64.zip
                 if [ ! -f "$FILE" ]; then
                     wget https://storage.googleapis.com/chrome-for-testing-public/136.0.7103.94/linux64/chromedriver-linux64.zip
                     unzip -o chromedriver-linux64.zip
