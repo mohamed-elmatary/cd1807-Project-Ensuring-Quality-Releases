@@ -28,24 +28,3 @@ resource "azurerm_linux_virtual_machine" "vm" {
   }  
   source_image_id = "/subscriptions/aa9cd12c-7c25-41fa-b40b-6650c05128ba/resourceGroups/QUALITYASSURANCE/providers/Microsoft.Compute/images/myApplication714-VM-image-20250520144805"
 }
-
-resource "azurerm_virtual_machine_extension" "monitor_agent" {
-  name                       = "AzureMonitorLinuxAgent"
-  virtual_machine_id         = azurerm_linux_virtual_machine.vm.id
-  publisher                  = "Microsoft.Azure.Monitor"
-  type                       = "AzureMonitorLinuxAgent"
-  type_handler_version       = "1.35.4"
-  auto_upgrade_minor_version = true
-
-  settings = jsonencode({
-    workspaceId =  "c8cc1b99-1bf0-413f-8786-0796db9aac55"
-  })
-
-  protected_settings = jsonencode({
-    "workspaceKey": "tspGl17VRxb1bo7SD227bkSeNUMjFDEp4PVMxEq57rqbHtJ4lU092G/LpjpZ2GAr9xNj07arNlixY9LlyP8Fgw=="
-  })
-  lifecycle {
-    ignore_changes   = all
-    prevent_destroy  = true
-  }
-}
