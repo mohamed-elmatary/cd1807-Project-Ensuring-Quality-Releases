@@ -298,14 +298,13 @@ stages:
                 unzip -o $(Build.BuildId)-uitests.zip
                 FILE=/home/azure/app/chromedriver_linux64.zip
                 if [ ! -f "$FILE" ]; then
-                    LATEST=$(wget -q -O - http://chromedriver.storage.googleapis.com/LATEST_RELEASE)
-                    wget http://chromedriver.storage.googleapis.com/$LATEST/chromedriver_linux64.zip
-                    unzip -o chromedriver_linux64.zip
-                    sudo ln -s $PWD/chromedriver /usr/local/bin/chromedriver
+                    wget https://storage.googleapis.com/chrome-for-testing-public/136.0.7103.94/linux64/chromedriver-linux64.zip
+                    unzip -o chromedriver-linux64.zip
+                    chmod +x "$PWD/chromedriver-linux64/chromedriver"
+                    sudo cp "$PWD/chromedriver-linux64/chromedriver" /usr/local/bin/chromedriver
+                    sudo ln -sf $PWD/chromedriver-linux64/chromedriver /usr/local/bin/chromedriver
                 fi
                 export PATH=$PATH:/home/azureuser/app
                 echo "Starting Selenium Tests"
-                #python3 add_remove_from_cart.py >> selenium.log
-                DIR2=var/log/selenium
-                mv -p home/azureuser/app/selenium.log var/log/selenium
+                python3 add_remove_from_cart.py
                 echo "Completed Selenium Tests. Check selenium.log for results."
