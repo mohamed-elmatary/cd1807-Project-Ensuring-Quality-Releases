@@ -20,7 +20,7 @@ resource "azurerm_linux_virtual_machine" "vm" {
   network_interface_ids = [azurerm_network_interface.nic.id]
   admin_ssh_key {
     username   = "azureuser"
-    public_key = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQCzkcp1fJVor86tqbT5P3Kqy41wWF5LkxIfVk7KRgKgdRUjtQ5gtEFFsKcQ1c2SDH6yQCf52yabCnffWzVcUQOOCKn9qzK7Uc1Oa+cUdHKJ4CpnfVyD4ppem+CgINWHWZkvdGaKi88fAXs7aSdJgd4PTYVL/c7/xer3o3m84zbwk+uQLavX4o3y4ko3eh4PcUkGr3H3JRtVMfbETQ2Nu3aJ/NEoXJYQIRU8XWZoAl4FJyFO6q/5vBlJ75ohjPpt0HQUn4zwCdokKhn3I0fOVZMPkY8cgVKmo+YJJ/MzPVSuUHazmvZR+4EYl5aNF8uD00KsM/w+8u8g2mprDy4KF3pVd4NQCj11tXGnfT+rEheQ3a7RYXCibhXdIsGaaSn4Rb3oF9ofNM9ISdl3n5gaXPJv9Wt5wosmA19Du5LAHfw/Qdf8Xjfe+9UaIslJnpKh4GI/ELa9hXDLOqfF2we5y8jEFLv7hyHHTLFnct7QKMHpHS21lv2FJH3MvgQx1ZF8Wqc= mohamed@SandboxHost-638833019118113617"
+    public_key = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQC7b909Y9M27RTn+lYatl4629UzGgKP+Fmrk8c3x1p6Tw6lSADk1zC8S9vVkNlsKY55043BYbRauQ7C7D2i2dgWS+553lr7hiPlhOPy+HqQ4FO+YaQdcUM9A3psAMhaMjH+9Mmk9lzNj0g0WJXVAG8GJ/R8OIUYWsxg+WyTkp5UYX5JMGdq+gCcuA0hjo2CDWt6syHL9KPNytJEK0rqpNyhpVxSAYetzPhue/pRls1BMitSqJAzS5lmdvSfqeguw/YNmnzFZK3uXDvP2MDythNLNBsFZDLd8fvGAthRImehWk1UOrd1+OyXuIpEglyn9zeb87wx8Mq9q6yJ6dbBFbBZL0BhldItGuUbgQIMIuuNQ1r2qFL77uGjAxdL/C0+cDEDlizC9Axjj4lOoSmql53k/d3twlnsJSD6fIyxFvmZ8UN99Q4cWtU0DOOjg0dWzT275yhonxdBTnDeblpkFe6Gl0CFVO3c/I1eChag7W0VTMFot2LlrSwbRjDpPdREwAU= mohamed@SandboxHost-638833019118113617"
   }
   os_disk {
     caching           = "ReadWrite"
