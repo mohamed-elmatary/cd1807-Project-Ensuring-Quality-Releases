@@ -20,17 +20,11 @@ resource "azurerm_linux_virtual_machine" "vm" {
   network_interface_ids = [azurerm_network_interface.nic.id]
   admin_ssh_key {
     username   = "azureuser"
-    public_key = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQC7b909Y9M27RTn+lYatl4629UzGgKP+Fmrk8c3x1p6Tw6lSADk1zC8S9vVkNlsKY55043BYbRauQ7C7D2i2dgWS+553lr7hiPlhOPy+HqQ4FO+YaQdcUM9A3psAMhaMjH+9Mmk9lzNj0g0WJXVAG8GJ/R8OIUYWsxg+WyTkp5UYX5JMGdq+gCcuA0hjo2CDWt6syHL9KPNytJEK0rqpNyhpVxSAYetzPhue/pRls1BMitSqJAzS5lmdvSfqeguw/YNmnzFZK3uXDvP2MDythNLNBsFZDLd8fvGAthRImehWk1UOrd1+OyXuIpEglyn9zeb87wx8Mq9q6yJ6dbBFbBZL0BhldItGuUbgQIMIuuNQ1r2qFL77uGjAxdL/C0+cDEDlizC9Axjj4lOoSmql53k/d3twlnsJSD6fIyxFvmZ8UN99Q4cWtU0DOOjg0dWzT275yhonxdBTnDeblpkFe6Gl0CFVO3c/I1eChag7W0VTMFot2LlrSwbRjDpPdREwAU= mohamed@SandboxHost-638833019118113617"
+    public_key = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDEl15mo0lKhiR6j11DltA+Tjsp9Tg7rc0YDQR2Y4yEOPy1/QFzza0CuVuwKAHCf6Q172z4+R1jfqDEWHvKNDXt3P1Tbi8E01KG4HbC2uYgdnYRuVVjen6JUxFhv1UXyynISz5wyOHoXrLxefRGb2uizOKKlUyaw3DWAGzWdx1dcrXJP8UtFf+ZUNhmIz6VVvErDjZPqhaHWnjbIe6QblI7GQO9SJH6kJgC/znRsowdF27CBIUvCbu2FXQEB4wdgHsIVOXbslNZou4nJIo17lgm61CUkLcX1zJmTE5avnjI8awrM/xeWin8keRtLAFI62nw14H7vcQH2uunbZVnJs0Ub+Q13+FOAeJU940QZDUxwBkZBdKHjqBH+I5OeRg4SxU5aLIkM55rfC2+EJSYGe/7SlRKPzzcS5Jkbwgx+UPkR39o8+/9XXBCpjFCd1jeA3urpbtgJfDlVF4P7og5vQ0SHTsKkPlGIfQdW2R6B5X15YOR1CjtNGXbVwAAoQJRr7k= MohamedShaban@MohamedShaaban"
   }
   os_disk {
     caching           = "ReadWrite"
     storage_account_type = "Standard_LRS"
-  }
-  source_image_reference {
-    publisher = "Canonical"
-    offer     = "0001-com-ubuntu-server-jammy"
-    sku       = "22_04-lts"
-    version   = "latest"
-  }
-
+  }  
+  source_image_id = "/subscriptions/aa9cd12c-7c25-41fa-b40b-6650c05128ba/resourceGroups/QUALITYASSURANCE/providers/Microsoft.Compute/images/myApplication714-VM-image-20250520144805"
 }
