@@ -97,7 +97,7 @@ stages:
     - script: |
         echo "Checking if plan contains changes..."
         terraform show -no-color tfplan > plan.txt
-        if grep -q "No changes. Infrastructure is up-to-date." plan.txt; then
+        if grep -q "No changes. Your infrastructure matches the configuration." plan.txt; then
           echo "No changes detected."
           echo "##vso[task.setvariable variable=applyRequired]false"
         else
