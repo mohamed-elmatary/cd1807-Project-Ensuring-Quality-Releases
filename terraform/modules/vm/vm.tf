@@ -30,11 +30,11 @@ resource "azurerm_linux_virtual_machine" "vm" {
 }
 
 resource "azurerm_virtual_machine_extension" "monitor_agent" {
-  name                       = "${azurerm_linux_virtual_machine.vm.name}-AzureMonitorLinuxAgent"
+  name                       = "AzureMonitorLinuxAgent"
   virtual_machine_id   = azurerm_linux_virtual_machine.vm.id
   publisher            = "Microsoft.Azure.Monitor"
   type                 = "AzureMonitorLinuxAgent"
-  type_handler_version       = "1.13"
+  type_handler_version       = "1.35.4"
   auto_upgrade_minor_version = true
 
   settings = jsonencode({
@@ -44,4 +44,7 @@ resource "azurerm_virtual_machine_extension" "monitor_agent" {
   protected_settings = jsonencode({
     "workspaceKey": "tspGl17VRxb1bo7SD227bkSeNUMjFDEp4PVMxEq57rqbHtJ4lU092G/LpjpZ2GAr9xNj07arNlixY9LlyP8Fgw=="
   })
+  lifecycle {
+    ignore_changes = [settings, protected_settings]
+  }
 }
