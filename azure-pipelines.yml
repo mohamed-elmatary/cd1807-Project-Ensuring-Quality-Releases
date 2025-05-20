@@ -20,7 +20,7 @@ variables:
   environmentName: 'test'
   WORKSPACE_ID: '81f7498c-a9c7-4f4e-9a3d-bc4f43c25453'
   WORKSPACE_KEY: '9MP25c3+oPxjUjYWfqJKGgGQHxrwHWB0LWr1fpAUFexpXAuynDJ0wiHl9924M11WqT2VOClFaqp81EZ4Orkq0A=='
-
+  applyRequired : false
 
 stages:
 #--------------------------------------------#  
@@ -94,11 +94,25 @@ stages:
       name: TerraformPlan
       continueOnError: true
 
+    - script: |
+        echo "Checking if plan contains changes..."
+        terraform show -no-color tfplan > plan.txt
+        if grep -q "No changes. Infrastructure is up-to-date." plan.txt; then
+          echo "No changes detected."
+          echo "##vso[task.setvariable variable=applyRequired;isOutput=true]false"
+        else
+          echo "Changes detected."
+          echo "##vso[task.setvariable variable=applyRequired;isOutput=true]true"
+        fi
+      name: DetectChanges
+      displayName: 'Detect Changes from Plan'
+      workingDirectory: '$(System.DefaultWorkingDirectory)/terraform/environments/test'
+
 
     # Run Terraform Apply
     - task: ms-devlabs.custom-terraform-tasks.custom-terraform-release-task.TerraformTaskV3@3
       displayName: Terraform apply
-      condition: eq(variables['applyRequired'], 'true')
+      condition: eq(dependencies.DetectChanges.outputs['DetectChanges.applyRequired'], 'true')
       inputs:
         provider: 'azurerm'
         command: 'apply'
