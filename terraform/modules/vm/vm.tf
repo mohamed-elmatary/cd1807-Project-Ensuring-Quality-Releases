@@ -34,9 +34,7 @@ resource "azurerm_virtual_machine_extension" "monitor_agent" {
   virtual_machine_id   = azurerm_linux_virtual_machine.vm.id
   publisher            = "Microsoft.Azure.Monitor"
   type                 = "AzureMonitorLinuxAgent"
-  type_handler_version = "1.10"
-    auto_upgrade_minor_version = true
-
+  type_handler_version = "2.0"
 
   settings = <<SETTINGS
   {
