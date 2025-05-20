@@ -28,3 +28,23 @@ resource "azurerm_linux_virtual_machine" "vm" {
   }  
   source_image_id = "/subscriptions/aa9cd12c-7c25-41fa-b40b-6650c05128ba/resourceGroups/QUALITYASSURANCE/providers/Microsoft.Compute/images/myApplication714-VM-image-20250520144805"
 }
+
+resource "azurerm_virtual_machine_extension" "monitor_agent" {
+  name                 = "AzureMonitorLinuxAgent" # ✅ Just the extension name
+  virtual_machine_id   = azurerm_linux_virtual_machine.vm.id
+  publisher            = "Microsoft.Azure.Monitor"
+  type                 = "AzureMonitorLinuxAgent"
+  type_handler_version = "1.0"
+
+  settings = <<SETTINGS
+  {
+    "workspaceId": "c8cc1b99-1bf0-413f-8786-0796db9aac55"
+  }
+  SETTINGS
+
+  protected_settings = <<PROTECTED_SETTINGS
+  {
+    "workspaceKey": "tspGl17VRxb1bo7SD227bkSeNUMjFDEp4PVMxEq57rqbHtJ4lU092G/LpjpZ2GAr9xNj07arNlixY9LlyP8Fgw=="
+  }
+  PROTECTED_SETTINGS
+}
