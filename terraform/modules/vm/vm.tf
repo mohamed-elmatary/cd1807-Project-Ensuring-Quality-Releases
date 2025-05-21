@@ -12,7 +12,7 @@ resource "azurerm_network_interface" "nic" {
 }
 
 resource "azurerm_linux_virtual_machine" "vm" {
-  name                = "${var.application_type}${var.resource_type}"
+  name                = "${var.application_type}-${var.resource_type}"
   location            = "${var.location}"
   resource_group_name = "${var.resource_group}"
   size                = "Standard_DS2_v2"
@@ -32,7 +32,7 @@ resource "azurerm_linux_virtual_machine" "vm" {
 }
 
 resource "azurerm_virtual_machine_extension" "azure_monitor_linux_agent" {
-  name                 = "AzureMonitorLinuxAgent"
+  name                 = "AzureMonitorLinuxAgent-VM"
   virtual_machine_id   = azurerm_linux_virtual_machine.vm.id
   publisher            = "Microsoft.Azure.Monitor"
   type                 = "AzureMonitorLinuxAgent"
