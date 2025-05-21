@@ -36,18 +36,12 @@ resource "azurerm_virtual_machine_extension" "azure_monitor_linux_agent" {
   virtual_machine_id   = azurerm_linux_virtual_machine.vm.id
   publisher            = "Microsoft.Azure.Monitor"
   type                 = "AzureMonitorLinuxAgent"
-  type_handler_version = "1.10"
+  type_handler_version = "1.35"
   auto_upgrade_minor_version = true
-
+  automatic_upgrade_enabled = true
   settings = jsonencode({
-    workspaceId               = "c8cc1b99-1bf0-413f-8786-0796db9aac55"
+    GCS_AUTO_CONFIG           = true
     azureResourceId           = azurerm_linux_virtual_machine.vm.id
-    stopOnMultipleConnections = false
-    gcsAutoConfig             = true
-  })
-
-  protected_settings = jsonencode({
-    workspaceKey = "tspGl17VRxb1bo7SD227bkSeNUMjFDEp4PVMxEq57rqbHtJ4lU092G/LpjpZ2GAr9xNj07arNlixY9LlyP8Fgw=="
   })
 }
 
