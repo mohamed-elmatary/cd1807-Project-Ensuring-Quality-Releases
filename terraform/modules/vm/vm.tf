@@ -32,7 +32,7 @@ resource "azurerm_linux_virtual_machine" "vm" {
 }
 
 resource "azurerm_virtual_machine_extension" "azure_monitor_linux_agent" {
-  name                 = "AzureMonitorLinuxAgent-VM"
+  name                 = "AzureMonitorLinuxAgent"
   virtual_machine_id   = azurerm_linux_virtual_machine.vm.id
   publisher            = "Microsoft.Azure.Monitor"
   type                 = "AzureMonitorLinuxAgent"
