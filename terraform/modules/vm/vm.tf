@@ -39,17 +39,15 @@ resource "azurerm_virtual_machine_extension" "azure_monitor_linux_agent" {
   type_handler_version = "1.35"
   auto_upgrade_minor_version = true
   automatic_upgrade_enabled = true
-  settings = <<SETTINGS
-  {
-    "workspaceId": "c8cc1b99-1bf0-413f-8786-0796db9aac55"
-  }
-  SETTINGS
+  settings = jsonencode({
+    GCS_AUTO_CONFIG           = true
+    azureResourceId           = azurerm_linux_virtual_machine.server.id
+    stopOnMultipleConnections = false
 
-  protected_settings = <<PROTECTED_SETTINGS
-  {
-    "workspaceKey": "tspGl17VRxb1bo7SD227bkSeNUMjFDEp4PVMxEq57rqbHtJ4lU092G/LpjpZ2GAr9xNj07arNlixY9LlyP8Fgw=="
-  }
-  PROTECTED_SETTINGS
+        authentication = {
+
+    }
+  })
 }
 
 
