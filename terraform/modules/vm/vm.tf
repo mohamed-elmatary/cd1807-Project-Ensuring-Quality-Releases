@@ -28,7 +28,6 @@ resource "azurerm_linux_virtual_machine" "vm" {
   }
   source_image_id = "/subscriptions/aa9cd12c-7c25-41fa-b40b-6650c05128ba/resourceGroups/AZUREDEVOPS2/providers/Microsoft.Compute/images/myApplication714-VM-image-20250521052058"
   
-  allow_extension_operations = true
   lifecycle {
     ignore_changes = [ extensions ]
   }
