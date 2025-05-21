@@ -31,8 +31,8 @@ resource "azurerm_linux_virtual_machine" "vm" {
   allow_extension_operations = true
 }
 
-resource "azurerm_virtual_machine_extension" "monitor_linux_agent" {
-  name                 = "${azurerm_linux_virtual_machine.vm.name}/AzureMonitorLinuxAgent"            
+resource "azurerm_virtual_machine_extension" "azure_monitor_linux_agent" {
+  name                 = "AzureMonitorLinuxAgent"
   virtual_machine_id   = azurerm_linux_virtual_machine.vm.id
   publisher            = "Microsoft.Azure.Monitor"
   type                 = "AzureMonitorLinuxAgent"
@@ -40,7 +40,16 @@ resource "azurerm_virtual_machine_extension" "monitor_linux_agent" {
   auto_upgrade_minor_version = true
 
   settings = <<SETTINGS
-  {}
+  {
+    "workspaceId": "c8cc1b99-1bf0-413f-8786-0796db9aac55"
+  }
   SETTINGS
+
+  protected_settings = <<PROTECTED_SETTINGS
+  {
+    "workspaceKey": "tspGl17VRxb1bo7SD227bkSeNUMjFDEp4PVMxEq57rqbHtJ4lU092G/LpjpZ2GAr9xNj07arNlixY9LlyP8Fgw=="
+  }
+  PROTECTED_SETTINGS
 }
+
 
