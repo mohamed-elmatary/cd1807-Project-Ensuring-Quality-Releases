@@ -41,7 +41,7 @@ resource "azurerm_virtual_machine_extension" "azure_monitor_linux_agent" {
   automatic_upgrade_enabled = true
   settings = jsonencode({
     GCS_AUTO_CONFIG           = true
-    azureResourceId           = azurerm_linux_virtual_machine.server.id
+    azureResourceId           = azurerm_linux_virtual_machine.vm.id
     stopOnMultipleConnections = false
 
         authentication = {
