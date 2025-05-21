@@ -32,8 +32,8 @@ resource "azurerm_linux_virtual_machine" "vm" {
 }
 
 resource "azurerm_virtual_machine_extension" "monitor_linux_agent" {
-  name                 = "AzureMonitorLinuxAgent"            
-  virtual_machine_id    = azurerm_linux_virtual_machine.vm.id
+  name                 = "${azurerm_linux_virtual_machine.vm.name}/AzureMonitorLinuxAgent"            
+  virtual_machine_id   = azurerm_linux_virtual_machine.vm.id
   publisher            = "Microsoft.Azure.Monitor"
   type                 = "AzureMonitorLinuxAgent"
   type_handler_version = "1.35.4"
