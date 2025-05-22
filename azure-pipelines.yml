@@ -6,13 +6,13 @@ name: Azure Pipelines
 trigger:
 - main
 
-# ToDo: Replace the agent pool name, if you are using Udacity Cloud lab. 
+# done: Replace the agent pool name, if you are using Udacity Cloud lab. 
 # Otherwise, comment out the line below. 
 pool: myAgentPool
 
 variables:
   python.version: '3.11.7'
-  # ToDo: Replace the service connection name as used in the DevOps project settings
+  # done: Replace the service connection name as used in the DevOps project settings
   azureServiceConnectionId: 'myServiceConnectionId'
   # Project root folder. Point to the folder containing manage.py file.
   projectRoot: $(System.DefaultWorkingDirectory)
@@ -37,7 +37,7 @@ stages:
         terraformVersion: '1.2.9'
     
     # Run Terraform Init on the pipeline agent 
-    # ToDo: Replace the resource group name, storage account name, and container name below
+    # done: Replace the resource group name, storage account name, and container name below
     - task: ms-devlabs.custom-terraform-tasks.custom-terraform-release-task.TerraformTaskV3@3
       displayName: 'Terrafom init'
       inputs:
@@ -59,7 +59,7 @@ stages:
     # OPTIONAL - This step is needed only if your Terraform VM uses an SSH key pair for login and you want your pipeline agent to connect to it. 
     # Generate an SSH key pair in your local/AZ Cloud shell. Use the public key in the Terraform VM module. 
     # Install public key and private key file to the pipeline agent, using the task below. 
-    # ToDo: Change the inputs value below
+    # done: Change the inputs value below
     - task: InstallSSHKey@0
       inputs:
         knownHostsEntry: '57.154.183.94 ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQCjvvVQ+dDC1uF6R2CtnC3bz+kd90d4gXEuStqWoiP8ZhqYjrlhP7z8QvmVEEFOMSBZn1Ph+PcCHELt2jH+MfzKd9mtFPO1KCuVB/+lc5mik3BF5iayXti/f3bx0t5dy+8ixXCbDhu08TbURAIR5mIyjLOLwdrQqs3B+gBguRgcuhcncq4YRLSVsd3bodLZYvcjSOgJSKEOgsKMe7HtVSX84H+REuO8TNWqRaVsmUQZOzsx6ifQbIiw/LHSeZNLcyrpTwFRDt/pZa8awrrh57GVQcH3B856vzp9vH6p7VVIsa4VDFJcX26BdJYO8JBGckk6wd5DRJuu+gfiXmuyrKbfcQh3CKtUKn0lTCOrTqFvvaQxe6hcQvbtj8ja21rW+Hw1lrvzxV9rfB4HYahfIKcGUOJxVseQLxSErajUYSqRccWPBzLDSEAlcMSSwJ1EgWVTlMEAflQCaTEXWRUlvA6lzs2dy4u/Sp+3Zah+o4A+LEbcTb48fpB72bwj/iqg5m0=' # variable value
@@ -122,7 +122,7 @@ stages:
         backendAzureRmContainerName: 'tfstate'
         backendAzureRmKey: 'test.terraform.tfstate'
 
-    # ToDo: Change the workingDirectory path, as applicable to you
+    # done: Change the workingDirectory path, as applicable to you
     # Destroy the resources in Azure by running a separate pipeline. 
     # - task: TerraformTaskV3@3
     #   displayName: Terraform destroy
@@ -134,7 +134,7 @@ stages:
 
 #--------------------------------------------#    
     # Postman - Install Newman    
-    # ToDo: Update the command and verify the working directory
+    # done: Update the command and verify the working directory
     - task: CmdLine@2
       displayName: Install NPM and Newman
       inputs:
@@ -144,7 +144,7 @@ stages:
           sudo npm install -g newman
         workingDirectory: $(System.DefaultWorkingDirectory)
     # Postman Data Validation Test Suite    
-    # ToDo: Verify the working directory
+    # done: Verify the working directory
     - task: CmdLine@2
       displayName: Run Data Validation Tests
       continueOnError: true
@@ -152,7 +152,7 @@ stages:
         script: 'newman run TestSuite.Data-Validation.json -e Test.environment.json --reporters cli,junit --reporter-junit-export TEST-DataValidation.xml'
         workingDirectory: '$(System.DefaultWorkingDirectory)/automatedtesting/postman'
     # Postman Regression Test Suite    
-    # ToDo: Verify the working directory
+    # done: Verify the working directory
     - task: CmdLine@2
       displayName: Run Regression Tests
       continueOnError: true
@@ -170,14 +170,14 @@ stages:
       displayName: 'Publish Postman Test Results'
 
 
-    # ToDo: Complete the task as explained here: https://learn.microsoft.com/en-us/azure/devops/pipelines/tasks/test/publish-test-results?view=azure-devops&tabs=trx%2Cyaml#yaml-snippet
+    # done: Complete the task as explained here: https://learn.microsoft.com/en-us/azure/devops/pipelines/tasks/test/publish-test-results?view=azure-devops&tabs=trx%2Cyaml#yaml-snippet
     - task: PublishTestResults@2
       inputs:
         testResultsFormat: 'JUnit'
         testResultsFiles: '**/TEST-*.xml'
-        searchFolder: '$(System.DefaultWorkingDirectory)/automatedtesting/postman' # ToDo
+        searchFolder: '$(System.DefaultWorkingDirectory)/automatedtesting/postman' # done
         mergeTestResults: true
-        testRunTitle: 'Postman API Test Results'      # ToDo
+        testRunTitle: 'Postman API Test Results'      # done
 
     #--------------------------------------------#
     # Selenium (UI) Test Suite - Archive the package  
@@ -196,7 +196,7 @@ stages:
 
     #--------------------------------------------#    
     # FakeRestAPI - Archive
-    # ToDo: Complete the ArchiveFiles@2 task and publish step 
+    # done: Complete the ArchiveFiles@2 task and publish step 
     - task: ArchiveFiles@2
       displayName: 'Archive FakeRestAPI'
       inputs:
@@ -210,7 +210,7 @@ stages:
 
     #--------------------------------------------#  
     # JMeter (Performance) Test Suite - Archive
-    # ToDo: Complete the ArchiveFiles@2 task and publish step 
+    # done: Complete the ArchiveFiles@2 task and publish step 
     - task: ArchiveFiles@2
       displayName: 'Archive PerformanceTestSuite'
       inputs:
@@ -230,10 +230,10 @@ stages:
   jobs:
   #--------------------------------------------#  
   # Deploy FakeRestAPI Web App
-  # ToDo: Provide <environment name> you created in your DevOps project
+  # done: Provide <environment name> you created in your DevOps project
   - deployment: FakeRestAPI
     pool: myAgentPool
-    environment: my-test-vm   # ToDo
+    environment: my-test-vm   # done
     strategy:
       runOnce:
         deploy:
@@ -241,10 +241,10 @@ stages:
           - task: AzureWebApp@1
             displayName: 'Deploy Azure Web App'
             inputs:
-              azureSubscription: '$(azureServiceConnectionId)'     # ToDo
-              appName: 'myApplication714-AppService'               # ToDo
+              azureSubscription: '$(azureServiceConnectionId)'     # done
+              appName: 'myApplication714-AppService'               # done
               appType: webApp
-              package: $(Pipeline.Workspace)/drop-fakerestapi/$(Build.BuildId)-fakerestapi.zip       # ToDo: Use the published zip artifact. 
+              package: $(Pipeline.Workspace)/drop-fakerestapi/$(Build.BuildId)-fakerestapi.zip       # done: Use the published zip artifact. 
           #--------------------------------------------#    
           
           - task: CmdLine@2
@@ -267,25 +267,25 @@ stages:
                 ./apache-jmeter-5.6.3/bin/jmeter -n -t StressTest.jmx -Jdata=reference_data.csv -j StressTest.log -f
                 cat EnduranceTest.log
                 cat StressTest.log
-                 # ToDo: Write your commands
+                 # done: Write your commands
               workingDirectory: $(Pipeline.Workspace)/drop-perftests     
             displayName: 'Jmeter Test'                 
-          # ToDo: Use the artifact name from the task above
+          # done: Use the artifact name from the task above
               
   #--------------------------------------------#  
   # Selenium | Functional UI Tests
-  # ToDo: 
+  # done: 
   - deployment: VMDeploy
     displayName: Selenium Tests
     environment:
-      name: my-test-vm  # ToDo: Change/provide a name
+      name: my-test-vm  # done: Change/provide a name
       resourceType: VirtualMachine
     strategy:
       runOnce:
         deploy:
           steps:
           - download: current
-            artifact: drop-uitests     # ToDo: Change/provide a name
+            artifact: drop-uitests     # done: Change/provide a name
             
           - task: Bash@3
             inputs:
