@@ -269,8 +269,6 @@ stages:
                 ./apache-jmeter-5.6.3/bin/jmeter -n -t StressTest.jmx -Jdata=reference_data.csv -j StressTest.log -f
                 cat EnduranceTest.log
                 cat StressTest.log
-                cat Endurance_Test_Result.csv  
-                cat Stress_Test_Result.csv                                                                           # ToDo: Write your commands
                  # ToDo: Write your commands
               workingDirectory: $(Pipeline.Workspace)/drop-perftests     
             displayName: 'Jmeter Test'                 
@@ -316,10 +314,9 @@ stages:
                     wget https://storage.googleapis.com/chrome-for-testing-public/136.0.7103.94/linux64/chromedriver-linux64.zip
                     unzip -o chromedriver-linux64.zip
                     chmod +x "$PWD/chromedriver-linux64/chromedriver"
-                    sudo cp "$PWD/chromedriver-linux64/chromedriver" /usr/local/bin/chromedriver
                     sudo ln -sf $PWD/chromedriver-linux64/chromedriver /usr/local/bin/chromedriver
                 fi
                 export PATH=$PATH:/home/azureuser/app
                 echo "Starting Selenium Tests"
-                python3 add_remove_from_cart.py
+                python3 add_remove_from_cart.py >> >> selenium.log
                 echo "Completed Selenium Tests. Check selenium.log for results."
