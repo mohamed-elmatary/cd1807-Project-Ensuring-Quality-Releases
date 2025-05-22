@@ -8,7 +8,7 @@ import time
 
 # Setup logging
 logging.basicConfig(
-    filename='selenium_test.log',
+    filename='selenium.log',
     filemode='w',
     format='%(asctime)s - %(levelname)s - %(message)s',
     level=logging.INFO
