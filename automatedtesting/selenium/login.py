@@ -35,6 +35,6 @@ def login (user, password):
     # Wait for the page to load
     time.sleep(2)  # Wait for 2 seconds
 
-    return driver
+    return driver, user_data_dir
 
 # ToDo: Add more functional UI tests as per your requirements. 
