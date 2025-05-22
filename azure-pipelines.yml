@@ -112,7 +112,7 @@ stages:
     # Run Terraform Apply
     - task: ms-devlabs.custom-terraform-tasks.custom-terraform-release-task.TerraformTaskV3@3
       displayName: Terraform apply
-      condition: eq(variables['applyRequired'], 'true')
+      # condition: eq(variables['applyRequired'], 'true')
       inputs:
         provider: 'azurerm'
         command: 'apply'
