@@ -4,6 +4,7 @@ from selenium.webdriver.chrome.options import Options as ChromeOptions
 from selenium.webdriver.common.by import By
 import time
 import tempfile
+import shutil
 
 
 # Start the browser and login with standard_user
@@ -12,6 +13,10 @@ def login (user, password):
     # --uncomment when running in Azure DevOps.
     options = ChromeOptions()
     user_data_dir = tempfile.mkdtemp()
+    shutil.rmtree(user_data_dir)
+    user_data_dir = tempfile.mkdtemp()
+
+    options.add_argument(f"--user-data-dir={user_data_dir}")
     options.add_argument("--headless=new")  # Use 'new' for modern Chrome
     options.add_argument("--no-sandbox")
     options.add_argument("--disable-dev-shm-usage")
