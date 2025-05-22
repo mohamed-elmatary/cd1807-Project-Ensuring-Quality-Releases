@@ -277,7 +277,6 @@ stages:
   # done: 
   - deployment: VMDeploy
     displayName: Selenium Tests
-    pool: myAgentPool
     environment:
       name: my-test-vm  # done: Change/provide a name
       resourceType: VirtualMachine
