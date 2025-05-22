@@ -19,7 +19,7 @@ print("Launching UI Test Suite...")
 logging.info("Launching UI Test Suite...")
 
 # Login to the site
-driver, user_data_dir = login('standard_user', 'secret_sauce')
+driver = login('standard_user', 'secret_sauce')
 logging.info("Logged into the saucedemo site.")
 
 # After login
@@ -58,4 +58,3 @@ print("Test Suite complete. Browser closed.")
 logging.info("Test Suite complete. Browser closed.")
 
 driver.quit()
-shutil.rmtree(user_data_dir)
